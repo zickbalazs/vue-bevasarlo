@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes)=>{
             type:DataTypes.INTEGER,
             allowNull:false
         },
+        UnitPrice:{
+            type:DataTypes.FLOAT,
+            allowNull:false
+        },
         Price:{
             type:DataTypes.FLOAT,
             allowNull:false

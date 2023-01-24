@@ -8,13 +8,19 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3" v-for="input in this.inputs" :key="input.name">
-                        <label :for="input.name" class="form-label">{{ input.title }}</label>
-                        <input :accept="input.type==='file' ? 'image/*' : false " :type="input.type" :name="input.name" v-model="data[input.name]" :disabled="input.disabled" class="form-control">
+                        <label :for="input.name" class="form-label">{{ input.title }}<span
+                                class="text-danger fw-bold">{{ input.required ? "*" : "" }}</span></label>
+                        <input :accept="input.type === 'file' ? 'image/*' : false" :type="input.type"
+                            :multiple="input.type === 'file' ? true : false" :name="input.name"
+                            v-model="data[input.name]" :id="input.type == 'file' ? 'file' : false" :disabled="input.disabled"
+                            class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <template v-for="button in this.buttons">
-                        <button @click="() => { button.function(data); }" :key="button.name" :class="'btn btn-'+button.type">{{ button.text }} <i v-if="button.icon" :class="'bi bi-'+button.icon"></i></button>
+                        <button @click="() => { button.function(data); }" :key="button.name"
+                            :class="'btn btn-' + button.type">{{ button.text }} <i v-if="button.icon"
+                                :class="'bi bi-' + button.icon"></i></button>
                     </template>
                 </div>
             </div>
@@ -27,12 +33,13 @@ export default {
     props: ['title', 'inputs', 'buttons', 'id'],
     data() {
         return {
-            data:{}
+            data: {
+
+            }
         }
-    },
-    
+    }
 }
 </script>
 <style>
-
+   
 </style>
