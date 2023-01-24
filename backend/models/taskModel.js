@@ -8,6 +8,14 @@ module.exports = (sequelize, DataTypes)=>{
             type:DataTypes.TEXT,
             allowNull: true
         },
+        Count:{
+            type:DataTypes.INTEGER,
+            allowNull:false
+        },
+        Price:{
+            type:DataTypes.FLOAT,
+            allowNull:false
+        },
         ImageName:{
             type:DataTypes.STRING,
             allowNull:true
