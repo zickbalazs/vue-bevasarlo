@@ -1,12 +1,12 @@
 <template>
     <main>
-        <div id="topinteractions" class="d-flex flex-row justify-content-between">
-            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddModal"><i
+        <div id="topinteractions" class="d-flex flex-row text-light justify-content-between w-100 mx-0 px-0 mb-3 bg-primary bg-gradient">
+            <button class="btn btn-success rounded-0" data-bs-toggle="modal" data-bs-target="#AddModal"><i
                     class="bi bi-plus"></i></button>
             <h1>A kosara</h1>
-            <button class="btn btn-danger"><i class="bi bi-trash2-fill"></i></button>
+            <button class="btn btn-danger rounded-0"><i class="bi bi-trash2-fill"></i></button>
         </div>
-        <div id="cartitems">
+        <div id="cartitems" class="container-fluid row mx-auto">
             <CardComponent v-for="item in cartItems" :data="item" :key="item.id" />
         </div>
         <ModalWindow title="Új kosárelem hozzáadása" id="AddModal" :inputs="AddInputs" :buttons="AddButtons" />
@@ -16,6 +16,7 @@
 import ModalWindow from './Modal.vue';
 import CardComponent from './Card.vue';
 import axios from 'axios';
+import { Item } from '../classes/Item';
 export default {
     name: 'MainSite',
     components: {
@@ -30,33 +31,43 @@ export default {
                     name: 'Name',
                     title: 'Termék neve',
                     type: 'text',
+                    placeholder:'Terméknév',
                     required: true
                 },
                 {
                     name: 'Description',
                     title: 'Leírás',
                     type: 'text',
+                    placeholder:'Ez egy leírás',
                     required: false
                 },
                 {
                     name: 'Count',
                     title: 'Mennyiség',
                     type: 'number',
-                    changeEvent:true,
-                    required:true
+                    placeholder: '12',
+                    changeEvent: true,
+                    required: true
                 },
                 {
                     name: 'UnitPrice',
                     title: 'Egységár',
                     type: 'number',
-                    changeEvent:true,
-                    required:true
+                    placeholder:'150',
+                    changeEvent: true,
+                    required: true,
+                    grouped: true,
+                    groupinput:{
+                        name:'Unit',
+                        type:'text',
+                        placeholder:'kg'
+                    }
                 },
                 {
                     name: 'ImageName',
                     title: 'Kép',
                     type: 'file',
-                    required:false
+                    required: false
                 }
             ],
             AddButtons: [
@@ -70,13 +81,13 @@ export default {
             ]
         }
     },
-    beforeMount(){
+    beforeMount() {
         this.GetCartItems();
     },
     computed: {
         ItemLength() {
             return this.cartItems.length;
-        }
+        },
     },
     methods: {
         AddItem(data) {
@@ -85,7 +96,8 @@ export default {
                 Description: data.Description == undefined ? null : data.Description,
                 Count: data.Count == undefined ? null : data.Count,
                 UnitPrice: data.UnitPrice == undefined ? null : data.UnitPrice,
-                Price: data.Count * data.UnitPrice
+                Price: data.Count * data.UnitPrice,
+                Unit:data.Unit==undefined?null:data.Unit
             }
             if (document.querySelector('#file').value != "") {
                 let form = this.GetFiles();
@@ -99,10 +111,10 @@ export default {
                     })
                 });
             }
-            else{
-                axios.post('http://localhost:8080/api/Tasks', dataToSend).then(res=>{
+            else {
+                axios.post('http://localhost:8080/api/Tasks', dataToSend).then(res => {
                     console.log(res);
-                }).catch(err=>{
+                }).catch(err => {
                     console.log(err.response);
                 })
             }
@@ -118,9 +130,10 @@ export default {
             }
             return form;
         },
-        GetCartItems(){
-            axios.get('http://localhost:8080/api/Tasks').then(res=>{
-                this.cartItems = res.data;
+        GetCartItems() {
+            axios.get('http://localhost:8080/api/Tasks').then(res => {
+                this.cartItems = res.data.map(e=>new Item(e));
+                console.log(res.data);
             })
         }
     }

@@ -7,13 +7,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3" v-for="input in this.inputs" :key="input.name">
+                    <div class="mb-3" v-for="input in this.inputs" :key="input.name"
+                        :class="input.groupinput ? 'input-group' : ''">
                         <label :for="input.name" class="form-label">{{ input.title }}<span
                                 class="text-danger fw-bold">{{ input.required ? "*" : "" }}</span></label>
                         <input :accept="input.type === 'file' ? 'image/*' : false" :type="input.type"
                             :multiple="input.type === 'file' ? true : false" :name="input.name"
-                            v-model="data[input.name]" :id="input.type == 'file' ? 'file' : false" :disabled="input.disabled"
-                            class="form-control">
+                            :placeholder="input.placeholder" v-model="data[input.name]"
+                            :id="input.type == 'file' ? 'file' : false" class="form-control">
+                        <span v-if="input.groupinput" class="input-group-text">/</span>
+                        <template v-if="input.groupinput">
+                            <input class="form-control" :type="input.groupinput.type"
+                                :name="input.groupinput.name" :placeholder="input.groupinput.placeholder" v-model="data[input.groupinput.name]" >
+                        </template>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -34,12 +40,11 @@ export default {
     data() {
         return {
             data: {
-
             }
         }
     }
 }
 </script>
 <style>
-   
+
 </style>
