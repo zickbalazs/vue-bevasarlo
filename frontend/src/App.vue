@@ -1,10 +1,8 @@
 <template>
   <div id="app">
-    <NavBar/>
     <div class="container-fluid px-0 mx-0" id="main">
       <router-view/>
     </div>
-    <FooterComponent/>
   </div>
 </template>
 
@@ -15,16 +13,15 @@
   min-height: 100vh;
 }
 #main{
+  display:flex;
+  flex-flow:column;
   flex: 1 1 auto;
 }
 </style>
 <script>
-import NavBar from './components/NavBar.vue';
-import FooterComponent from './components/FooterComponent.vue';
 export default{
-  components:{
-    NavBar,
-    FooterComponent
+  created(){
+    document.title = "Bevásárló"
   }
 }
 </script>

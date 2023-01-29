@@ -34,7 +34,9 @@
     </div>
 </template>
 <script>
+
 export default {
+
     name: 'ModalWindow',
     props: ['title', 'inputs', 'buttons', 'id'],
     data() {
