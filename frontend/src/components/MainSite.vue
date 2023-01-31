@@ -19,12 +19,14 @@
     </div>
 </template>
 <style>
-.container-fluid{
-    display:flex;
-    flex-flow:column;
+.container-fluid {
+    display: flex;
+    flex-flow: column;
 }
-.container-fluid, main{
-    flex:1 1 auto;
+
+.container-fluid,
+main {
+    flex: 1 1 auto;
 }
 </style>
 <script>
@@ -118,8 +120,8 @@ export default {
                 Description: data.Description == undefined ? null : data.Description,
                 Count: data.Count == undefined ? null : data.Count,
                 UnitPrice: data.UnitPrice == undefined ? null : data.UnitPrice,
-                Price: data.Count * data.UnitPrice,
-                Unit: data.Unit == undefined ? null : data.Unit
+                Unit: data.Unit == undefined ? null : data.Unit,
+                Price: data.Count * data.UnitPrice
             }
             if (document.querySelector('#file').value != "") {
                 let form = this.GetFiles();
@@ -128,8 +130,10 @@ export default {
                     dataToSend.ImageName = res.data.map(e => e.filename).join(';');
                     axios.post('http://localhost:8080/api/Tasks', dataToSend).then(res => {
                         console.log(res);
-                        this.cartItems.push(data);
+                        alert('Sikeres felvétel');
+                        this.cartItems.push(dataToSend);
                     }).catch(err => {
+                        alert('Hibás adatok!')
                         console.log(err.response);
                     })
                 });
@@ -137,8 +141,11 @@ export default {
             else {
                 axios.post('http://localhost:8080/api/Tasks', dataToSend).then(res => {
                     console.log(res);
-                    this.cartItems.push(data);
+                    alert('Sikeres felvétel');
+                    this.cartItems.push(dataToSend);
                 }).catch(err => {
+                    data = {};
+                    alert('Hibás adatok!')
                     console.log(err.response);
                 })
             }

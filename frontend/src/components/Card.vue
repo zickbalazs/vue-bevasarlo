@@ -7,7 +7,7 @@
             </div>
             <div class="card-body p-0" :class="item.isDone?'d-none':''">
                <div class="d-flex justify-content-center bg-dark border-bottom border-dark">
-                   <img v-if="item.ImageName" class="img-fluid"
+                   <img :class="item.ImageName==null ? 'd-none' : ''" class="img-fluid"
                        :src="item.ImageName">
                </div>
                <div class="text p-3">
